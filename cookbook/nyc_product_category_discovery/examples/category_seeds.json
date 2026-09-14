@@ -1,0 +1,22 @@
+{
+  "Gift Baskets": {
+    "keywords": ["gift basket delivery", "same day gift baskets"],
+    "overture_categories": ["gift_shop"]
+  },
+  "Party Supplies": {
+    "keywords": ["party supplies delivery", "birthday party supplies"],
+    "overture_categories": ["party_supply_store"]
+  },
+  "Florist Delivery": {
+    "keywords": ["flower delivery", "same day flowers"],
+    "overture_categories": ["florist"]
+  },
+  "Bakery Delivery": {
+    "keywords": ["bakery delivery", "custom cake delivery"],
+    "overture_categories": ["bakery"]
+  },
+  "Pet Supplies": {
+    "keywords": ["pet supplies delivery", "pet food delivery"],
+    "overture_categories": ["pet_supply_store"]
+  }
+}

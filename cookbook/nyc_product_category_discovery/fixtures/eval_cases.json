@@ -1,0 +1,232 @@
+{
+  "suite": "nyc-category-discovery-evidence-rules-v1",
+  "cases": [
+    {
+      "case_id": "rank-demand-and-supply",
+      "description": "High demand plus low supply ranks above the comparison category.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Celebration Kits", "borough": "Bronx", "demand": 1000, "supply": 2},
+        {"category": "Gift Baskets", "borough": "Bronx", "demand": 100, "supply": 20}
+      ],
+      "expected": {"supported": ["Bronx|Celebration Kits", "Bronx|Gift Baskets"], "top": "Bronx|Celebration Kits", "top_count": 2, "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "completed-zero-supply",
+      "description": "A completed query with zero results is valid supply evidence.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Party Boxes", "borough": "Bronx", "demand": 800, "supply": 0},
+        {"category": "Snack Boxes", "borough": "Bronx", "demand": 200, "supply": 12}
+      ],
+      "expected": {"supported": ["Bronx|Party Boxes"], "top": "Bronx|Party Boxes", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "missing-demand",
+      "description": "Supply without category demand cannot support an opportunity claim.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "missing-supply",
+      "description": "Demand without completed supply coverage cannot support an opportunity claim.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "stale-demand",
+      "description": "Demand older than the configured freshness window is rejected.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "demand_age_days": 500, "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "stale-supply",
+      "description": "Supply coverage older than the configured freshness window is rejected.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "supply": 1, "supply_age_days": 500},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "low-demand-confidence",
+      "description": "Demand below the confidence threshold is rejected.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "demand_confidence": 0.4, "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "failed-demand-source",
+      "description": "A failed demand source cannot support a recommendation.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "demand_source_status": "failed", "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "failed-supply-source",
+      "description": "A failed supply source cannot support a recommendation.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "supply": 1, "supply_source_status": "failed"},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "incomplete-supply-query",
+      "description": "A partial or interrupted supply query is not treated as a market count.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "supply": 1, "query_completed": false},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "mixed-demand-units",
+      "description": "Different demand units cannot be summed into one category score.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "observations": [
+        {"category": "Custom Favors", "borough": "Bronx", "demand": 900, "demand_metric": "orders", "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Custom Favors", "Bronx|Baseline"], "top": null, "top_count": 0, "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "business-exclusion",
+      "description": "A category excluded by the business profile cannot be recommended.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"minimum_supported_categories": 1},
+      "excluded_categories": ["Alcohol Delivery"],
+      "observations": [
+        {"category": "Alcohol Delivery", "borough": "Bronx", "demand": 900, "supply": 1},
+        {"category": "Baseline", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"insufficient": ["Bronx|Alcohol Delivery"], "top": "Bronx|Baseline", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "minimum-comparison-set",
+      "description": "One category cannot establish a relative underserved ranking when two are required.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Only Category", "borough": "Bronx", "demand": 900, "supply": 1}
+      ],
+      "expected": {"insufficient": ["Bronx|Only Category"], "top": null, "top_count": 0, "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "equal-values-neutral-score",
+      "description": "Equal demand and supply values receive deterministic neutral scores.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Alpha", "borough": "Bronx", "demand": 100, "supply": 5},
+        {"category": "Beta", "borough": "Bronx", "demand": 100, "supply": 5}
+      ],
+      "expected": {"supported": ["Bronx|Alpha", "Bronx|Beta"], "top": "Bronx|Alpha", "top_count": 2, "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "top-five-limit",
+      "description": "The published underserved list never exceeds five categories.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Category 1", "borough": "Bronx", "demand": 600, "supply": 1},
+        {"category": "Category 2", "borough": "Bronx", "demand": 500, "supply": 2},
+        {"category": "Category 3", "borough": "Bronx", "demand": 400, "supply": 3},
+        {"category": "Category 4", "borough": "Bronx", "demand": 300, "supply": 4},
+        {"category": "Category 5", "borough": "Bronx", "demand": 200, "supply": 5},
+        {"category": "Category 6", "borough": "Bronx", "demand": 100, "supply": 6}
+      ],
+      "expected": {"top": "Bronx|Category 1", "top_count": 5, "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "bronx-priority",
+      "description": "Bronx wins when its supported opportunity distribution is stronger.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "A", "borough": "Bronx", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Bronx", "demand": 90, "supply": 2},
+        {"category": "C", "borough": "Bronx", "demand": 1, "supply": 10},
+        {"category": "A", "borough": "Queens", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Queens", "demand": 10, "supply": 9},
+        {"category": "C", "borough": "Queens", "demand": 1, "supply": 10}
+      ],
+      "expected": {"top": "Bronx|A", "priority_borough": "Bronx", "priority_status": "supported"}
+    },
+    {
+      "case_id": "queens-priority",
+      "description": "Queens wins when its supported opportunity distribution is stronger.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "A", "borough": "Bronx", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Bronx", "demand": 10, "supply": 9},
+        {"category": "C", "borough": "Bronx", "demand": 1, "supply": 10},
+        {"category": "A", "borough": "Queens", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Queens", "demand": 90, "supply": 2},
+        {"category": "C", "borough": "Queens", "demand": 1, "supply": 10}
+      ],
+      "expected": {"top": "Bronx|A", "priority_borough": "Queens", "priority_status": "supported"}
+    },
+    {
+      "case_id": "borough-priority-tie",
+      "description": "A tied borough score produces insufficient data rather than an arbitrary winner.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "A", "borough": "Bronx", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Bronx", "demand": 50, "supply": 5},
+        {"category": "C", "borough": "Bronx", "demand": 1, "supply": 10},
+        {"category": "A", "borough": "Queens", "demand": 100, "supply": 1},
+        {"category": "B", "borough": "Queens", "demand": 50, "supply": 5},
+        {"category": "C", "borough": "Queens", "demand": 1, "supply": 10}
+      ],
+      "expected": {"top": "Bronx|A", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "one-borough-only",
+      "description": "Evidence for only one primary borough cannot decide borough priority.",
+      "now": "2026-09-14T12:00:00Z",
+      "observations": [
+        {"category": "Alpha", "borough": "Bronx", "demand": 100, "supply": 1},
+        {"category": "Beta", "borough": "Bronx", "demand": 10, "supply": 10}
+      ],
+      "expected": {"top": "Bronx|Alpha", "priority_borough": null, "priority_status": "insufficient_data"}
+    },
+    {
+      "case_id": "weighted-competitor-weakness",
+      "description": "Competitor weakness affects ranking only when explicitly weighted and evidenced.",
+      "now": "2026-09-14T12:00:00Z",
+      "settings": {"demand_weight": 0.4, "supply_gap_weight": 0.4, "competitor_weakness_weight": 0.2, "business_fit_weight": 0.0},
+      "observations": [
+        {"category": "Low Rated", "borough": "Bronx", "demand": 100, "supply": 5, "ratings": [2.0, 2.5]},
+        {"category": "High Rated", "borough": "Bronx", "demand": 100, "supply": 5, "ratings": [4.8, 4.9]}
+      ],
+      "expected": {"supported": ["Bronx|Low Rated", "Bronx|High Rated"], "top": "Bronx|Low Rated", "priority_borough": null, "priority_status": "insufficient_data"}
+    }
+  ]
+}

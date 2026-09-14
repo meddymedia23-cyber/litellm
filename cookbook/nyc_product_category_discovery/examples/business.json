@@ -1,0 +1,15 @@
+{
+  "product_service": "Undecided pickup-and-delivery business",
+  "primary_boroughs": ["Bronx", "Queens"],
+  "secondary_boroughs": ["Manhattan", "Brooklyn"],
+  "pickup": true,
+  "delivery": true,
+  "no_storefront": true,
+  "pickup_borough": null,
+  "maximum_delivery_radius_miles": null,
+  "minimum_gross_margin_percent": null,
+  "maximum_unit_cost_usd": null,
+  "excluded_categories": [],
+  "prohibited_claims": [],
+  "approved_copy_facts": []
+}

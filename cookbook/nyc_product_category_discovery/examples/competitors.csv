@@ -1,0 +1,3 @@
+competitor_name,borough,neighborhood,primary_category,secondary_categories,price_min,price_max,rating,review_count,pickup,delivery,delivery_fee,delivery_radius_miles,main_offer,ad_message,source_url,observed_at,external_id
+Example Vendor A,Bronx,,Celebration Kits,,35,85,4.2,18,true,true,8,5,Same-day kits,,https://example.test/vendor-a,2026-09-01T00:00:00Z,vendor-a
+Example Vendor B,Queens,,Celebration Kits,,40,95,4.7,120,true,false,,,Custom kits,,https://example.test/vendor-b,2026-09-01T00:00:00Z,vendor-b
