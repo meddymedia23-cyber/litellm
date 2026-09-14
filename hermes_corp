@@ -1,0 +1,118 @@
+import sqlite3
+import json
+from datetime import datetime
+from openai import OpenAI
+
+# 1. CONNECT TO YOUR LITELLM GATEWAY
+# This assumes your LiteLLM proxy is running locally (as we set up earlier)
+client = OpenAI(
+    api_key="anything", 
+    base_url="http://0.0.0.0:4000" 
+)
+
+# 2. SETUP THE "BRAIN" (MEMORY)
+# This is the database that makes the ecosystem learn.
+conn = sqlite3.connect('hermes_memory.db')
+cursor = conn.cursor()
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS memories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task_type TEXT,
+        prompt TEXT,
+        best_model TEXT,
+        outcome TEXT,
+        created_at TIMESTAMP
+    )
+''')
+conn.commit()
+
+# 3. THE ROUTER: WHICH AI SHOULD THINK?
+def choose_model(task_description):
+    """Decides which AI is the smartest for this exact job."""
+    
+    task_lower = task_description.lower()
+    
+    if "code" in task_lower or "scraper" in task_lower or "fix bug" in task_lower:
+        return "claude-fable-5.1" # Best for coding
+    elif "analyze" in task_lower or "strategy" in task_lower or "marketing" in task_lower:
+        return "gpt-6-astra" # Best for strategy
+    elif "read" in task_lower or "document" in task_lower or "summarize" in task_lower:
+        return "gemini-3.8-flash" # Best for long context
+    else:
+        return "deepseek-v4.1" # Cheap fallback
+
+# 4. THE LEARNER: LOOKING BACK BEFORE MOVING FORWARD
+def get_smart_context(task_description):
+    """Looks at past wins to give the AI a head start."""
+    
+    cursor.execute('''
+        SELECT prompt, best_model, outcome FROM memories 
+        WHERE task_type LIKE ? 
+        ORDER BY created_at DESC LIMIT 3
+    ''', (f'%{task_description.split()[0]}%',))
+    
+    past_memories = cursor.fetchall()
+    
+    if past_memories:
+        context = "Here is what worked in the past for similar tasks:\n"
+        for mem in past_memories:
+            context += f"- Task: {mem[0]}\n  Model: {mem[1]}\n  Result: {mem[2]}\n"
+        return context
+    
+    return "No past memories found. This is a fresh start."
+
+# 5. THE ORCHESTRATOR: THE ECOSYSTEM IN ACTION
+def run_hermes(task_description):
+    print(f"🚀 [HERMES HQ]: Received task: '{task_description}'")
+    
+    # Step A: Pick the model
+    target_model = choose_model(task_description)
+    print(f"🧠 [ROUTER]: Best AI for this job is '{target_model}'")
+    
+    # Step B: Retrieve past learning
+    past_context = get_smart_context(task_description)
+    print(f"📚 [MEMORY]: Recalling past strategies...")
+    
+    # Step C: Build the prompt
+    system_prompt = (
+        f"You are part of an AI Ecosystem. The current task is assigned to you. "
+        f"{past_context}\n"
+        f"Please complete the task using the best of your ability. Be concise."
+    )
+    
+    # Step D: Ask the AI
+    try:
+        response = client.chat.completions.create(
+            model=target_model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": task_description}
+            ]
+        )
+        result = response.choices[0].message.content
+        
+        # Step E: Save the outcome to memory
+        cursor.execute('''
+            INSERT INTO memories (task_type, prompt, best_model, outcome, created_at)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (task_description.split()[0], task_description, target_model, result[:200] + "...", datetime.now()))
+        conn.commit()
+        
+        print("\n✅ [FORGE LABS]: Task Completed. Memory Saved.")
+        return result
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return None
+
+# 6. TEST IT OUT
+if __name__ == "__main__":
+    # Example 1: A coding task
+    task1 = "Write a python script to scrape a website for prices"
+    print(run_hermes(task1))
+    print("-" * 50)
+    
+    # Example 2: A strategy task
+    task2 = "Analyze the market data for New York and create a marketing strategy"
+    print(run_hermes(task2))
