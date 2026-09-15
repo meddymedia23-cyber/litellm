@@ -83,6 +83,7 @@ This extension is reviewed but not implemented. It adds no runnable command, dep
 - A future retrieval layer may index policy-eligible documents for contextual model assistance. Retrieved text remains untrusted context and cannot override deterministic analysis or become market evidence through similarity.
 - Before implementation, the RAG design requires hash-bound document versions, stale-chunk deletion, scalar policy metadata, provider-sharing filters, embedding/corpus versioning, prompt-injection isolation, citation validation, bounded retries, and measured retrieval quality.
 - The supplied prototype's `gpt-5.6-sol` identifier is not an approved configured default and must be verified before use.
+- Hugging Face Transformers was evaluated as a future optional local backend, primarily for benchmarked fixed-taxonomy classification. It is not needed by any implemented requirement, so no dependency was added. Any checkpoint requires separate license review, immutable revision pinning, resource benchmarks, and the existing evidence validators.
 
 Detailed findings and acceptance requirements are recorded in [`PROJECT_KNOWLEDGE.md`](PROJECT_KNOWLEDGE.md).
 

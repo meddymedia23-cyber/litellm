@@ -281,6 +281,53 @@ For embeddings behavior and dimensions, consult the official [OpenAI embeddings 
 
 Content from linked official documentation was paraphrased. No external source text is reproduced as project evidence.
 
+## Hugging Face Transformers evaluation
+
+Status: **Evaluated; no runtime dependency added.**
+
+At the September 14, 2026 review, [`huggingface/transformers`](https://github.com/huggingface/transformers) was active under the Apache-2.0 license and its latest stable release was [v5.17.0](https://github.com/huggingface/transformers/releases/tag/v5.17.0). The library provides model definitions and local inference/training primitives across text, vision, audio, video, and multimodal tasks. Its [pipeline API](https://huggingface.co/docs/transformers/main/en/main_classes/pipelines) includes classification, zero-shot classification, feature extraction, generation, question answering, and image tasks.
+
+Transformers does not provide Google Ads or Merchant collection, source provenance, evidence eligibility, vector-store lifecycle, live cited research, deterministic opportunity scoring, agent memory, or this project's orchestration and validation contracts. Installing it would not improve the current evidence engine by itself.
+
+### Dependency decision
+
+Do not add `transformers` to the current cookbook requirements. There is no implemented local-inference command, selected checkpoint, benchmark, image contract, RAG command, hardware target, or acceptance threshold. Adding the library now would also introduce model downloads, tensor-runtime and cache requirements, checkpoint-specific licenses, and CPU/GPU resource behavior without an executable caller.
+
+If local inference becomes justified, prefer either:
+
+1. an optional backend implementing the existing structured client boundary; or
+2. a separately served, LiteLLM-compatible local endpoint, keeping heavyweight inference dependencies out of the collector process.
+
+A direct adapter must preserve Pydantic output validation, bounded retries, timeouts, redacted errors, usage/latency metadata, event-loop isolation, and every downstream evidence check.
+
+### Prioritized future uses
+
+1. **Local fixed-taxonomy listing classification:** strongest candidate. A local text or zero-shot classifier could reduce external disclosure and classify records against the supplied taxonomy, but it must preserve record IDs, explicit abstention, secondary-label rules, evidence text, batch completeness, and existing validation.
+2. **Local embeddings or reranking for proposed RAG:** useful only after the documented corpus, metadata, deletion, citation, and retrieval-evaluation contracts exist. Computing vectors locally does not change source evidence eligibility.
+3. **Advisory product-image checks:** possible after Merchant product/image schemas exist. ML may flag category/image inconsistency or content classes, while deterministic code must handle dimensions, format, hashes, duplicates, and fetch status. Image-model output cannot prove Merchant approval, legal compliance, product quality, demand, or supply.
+4. **Local drafting or explanation:** possible for strategy or copy only if outputs pass the same immutable-result and approved-fact validators. It remains downstream of deterministic analysis and human review.
+
+Do not replace sourced research with a plain local checkpoint: pretrained model knowledge is not live evidence and has no inherent URL provenance. Do not count aliases or quantizations of one checkpoint as independent consensus reviewers.
+
+### Adoption gates
+
+Before enabling any Transformers backend:
+
+- define the exact stage, model repository, task, and business acceptance criteria;
+- pin a stable Transformers release plus immutable model and tokenizer revisions rather than tracking `main`;
+- review the selected checkpoint's own model card, dataset disclosures, license, intended use, and restrictions—the library's Apache-2.0 license does not license every Hub model;
+- keep unreviewed remote model code disabled; if custom remote code is unavoidable, review it and pin its immutable revision;
+- define cache location, offline behavior, egress policy, telemetry policy, retention, deletion, and resource limits;
+- benchmark a representative labeled dataset against the existing provider using per-category quality, abstention behavior, calibration, latency, memory, and cost;
+- define minimum quality thresholds before seeing results and fail closed below them;
+- distinguish approved in-process local handling from external provider sharing instead of silently bypassing `provider_sharing_allowed`;
+- add an optional dependency group, configuration schema, health checks, structured adapter, fallback policy, and focused tests in the same implementation change; and
+- record model, tokenizer, library, hardware, quantization, prompt, and benchmark versions for every production result.
+
+This evaluation adds a future decision gate, not an implementation commitment. Recheck current releases and documentation before adoption.
+
+Content from linked official documentation was paraphrased for compliance with licensing restrictions.
+
 ## Rejected approaches
 
 - Modifying LiteLLM core or proxy for domain-specific market logic.

@@ -47,6 +47,7 @@ These designs are reviewed but not implemented. The complete decision record is 
 - RAG implementation requires hash-bound IDs, stale-chunk deletion, scalar policy metadata, model/corpus versioning, provider-sharing filters, prompt-injection defenses, citation validation, bounded retries, and retrieval evaluation.
 - The supplied RAG demo's product claims are synthetic because no verified source records accompanied them.
 - Exact provider model IDs must be verified before implementation; `gpt-5.6-sol` is not an approved project default.
+- Hugging Face Transformers was evaluated as a future optional local backend. No dependency is justified until a concrete stage has a pinned checkpoint, separate model-license review, representative benchmark, resource budget, and full evidence-policy validation.
 
 ## Delivery status
 
