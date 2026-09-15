@@ -150,3 +150,7 @@ litellm.log
 
 .coverage-rust
 coverage-rust.xml
+
+
+# Local vector-store persistence from NYC market-intelligence prototypes
+/chroma_db/

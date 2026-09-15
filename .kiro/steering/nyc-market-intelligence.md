@@ -11,7 +11,7 @@ Build an evidence-based system that identifies product or service categories wor
 ## Decision standard
 
 - Never invent market facts, competitor capabilities, demand, pricing, delivery, pickup, margins, or borough preference.
-- Use the exact phrase `insufficient data` when the evidence gate fails.
+- Human-facing failures use `insufficient data`; machine-readable status fields use `insufficient_data`.
 - A category can be called underserved only when the same run contains fresh category-level demand and a fresh completed supply query for the same borough.
 - Require comparable demand metric and observation periods across candidates.
 - Require one deduplicated demand observation and one documented supply count per category/borough.
@@ -34,12 +34,27 @@ The implementation lives at `cookbook/nyc_product_category_discovery/` inside th
 - Model-returned local file URLs and private network addresses fail research verification; each public DNS result is pinned for the connection to prevent rebinding, and candidates citing failed sources are removed.
 - Strategy observations are field-level and exact; every angle, practice, and action remains an explicitly unvalidated proposal with unknown impact.
 - Claude copy requires exact operator-approved facts, blocks unapproved promotional claims, and remains a human-review draft.
-- The 20-case offline evidence suite passed 20/20 on September 14, 2026.
-- A small live Overture adapter probe successfully found and normalized records, but it was not a full borough market run and must not be used as a category recommendation.
+- The 20-case offline evidence suite passed 20/20 locally at commit `2176973a90` on September 14, 2026; this is a local validation record, not GitHub CI evidence.
+- A small live Overture adapter probe found and normalized records during development, but no immutable probe artifact is committed. It was not a full borough market run and is ineligible for recommendations.
+
+## Proposed Merchant and RAG extensions
+
+These designs are reviewed but not implemented. The complete decision record is in `cookbook/nyc_product_category_discovery/PROJECT_KNOWLEDGE.md`.
+
+- Content API for Shopping v2.1 is sunset; any catalog integration must use the Merchant API.
+- Merchant products and issue statuses are operational catalog context, not borough demand, competitor counts, or completed local supply coverage.
+- A future RAG layer may index policy-eligible documents for contextual assistance, but retrieval similarity cannot become market evidence or override deterministic analysis.
+- RAG implementation requires hash-bound IDs, stale-chunk deletion, scalar policy metadata, model/corpus versioning, provider-sharing filters, prompt-injection defenses, citation validation, bounded retries, and retrieval evaluation.
+- The supplied RAG demo's product claims are synthetic because no verified source records accompanied them.
+- Exact provider model IDs must be verified before implementation; `gpt-5.6-sol` is not an approved project default.
+
+## Delivery status
+
+Historical observation from September 14, 2026, before the knowledge-document update: validated implementation baseline `2176973a90` was the head of branch `litellm_nyc_market_intelligence`, and draft PR <https://github.com/meddymedia23-cyber/litellm/pull/1> was open on the fork. The fork reported no GitHub checks or automated reviews; absent Greptile, Veria, and Bugbot results were unavailable, not passes. The change was not merged or deployed. The PR URL is authoritative for later documentation commits and delivery-state changes.
 
 ## Current data status
 
-No defensible recommendation about what to sell exists yet. The repository contains synthetic demonstration categories only. A full run requires:
+No defensible recommendation about what to sell exists yet. The repository contains synthetic demonstration categories only and no committed complete production evidence packet for Bronx and Queens. Repository inspection cannot establish whether external credentials exist; it establishes only that no credential-backed full-run artifact is committed. A full run requires:
 
 1. Google Ads OAuth credentials, developer token, customer ID, and optional manager account ID configured through environment variables.
 2. A reviewed `category_seeds.json` mapping candidate categories to Google Ads keywords and current Overture taxonomy labels.
@@ -58,4 +73,4 @@ No defensible recommendation about what to sell exists yet. The repository conta
 
 ## Feedback loop
 
-After a controlled market test, retain prompt/model version, borough, category, spend, impressions, clicks, leads, orders, revenue, fulfillment cost, gross margin, acceptance decision, and rejection reason. Favor measured commercial outcomes over model confidence or majority voting.
+After a controlled market test, retain prompt/model version, borough, category, spend, impressions, clicks, leads, orders, revenue, fulfillment cost, gross margin, acceptance decision, and rejection reason. If RAG is introduced, also retain corpus, embedding, chunk-schema, retrieval-parameter, and cited-chunk versions. If Merchant synchronization is introduced, retain account scope, sync and normalization versions, resource timestamps, and deletion state without secrets. Favor measured commercial outcomes over model confidence, vector similarity, or majority voting.

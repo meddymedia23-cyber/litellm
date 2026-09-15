@@ -2,6 +2,8 @@
 
 A self-contained LiteLLM cookbook application for deciding **what to validate selling** through appointment pickup and delivery in the Bronx and Queens. It standardizes market records, enforces evidence-linked model outputs, calculates a deterministic opportunity ranking, and ships with a 20-case offline evaluation suite.
 
+See [`PROJECT_KNOWLEDGE.md`](PROJECT_KNOWLEDGE.md) for the durable decision log, validation provenance, delivery state, rejected approaches, and reviewed-but-unimplemented Merchant API and RAG designs.
+
 ## What this system can and cannot decide
 
 The system can rank candidate categories when the same run contains:
@@ -71,6 +73,18 @@ research -> collection -> normalization/classification -> deterministic analysis
 ```
 
 Classification occurs before analysis because analysis cannot safely compare unnormalized categories.
+
+### Proposed Merchant and RAG extension
+
+This extension is reviewed but not implemented. It adds no runnable command, dependency, or claim of production readiness.
+
+- A catalog integration must use the [Merchant API](https://developers.google.com/merchant/api), not the sunset Content API for Shopping v2.1.
+- Merchant products and issue statuses can support catalog readiness after category selection. They cannot satisfy borough demand or completed local supply requirements.
+- A future retrieval layer may index policy-eligible documents for contextual model assistance. Retrieved text remains untrusted context and cannot override deterministic analysis or become market evidence through similarity.
+- Before implementation, the RAG design requires hash-bound document versions, stale-chunk deletion, scalar policy metadata, provider-sharing filters, embedding/corpus versioning, prompt-injection isolation, citation validation, bounded retries, and measured retrieval quality.
+- The supplied prototype's `gpt-5.6-sol` identifier is not an approved configured default and must be verified before use.
+
+Detailed findings and acceptance requirements are recorded in [`PROJECT_KNOWLEDGE.md`](PROJECT_KNOWLEDGE.md).
 
 ## Supported data sources
 
@@ -329,4 +343,12 @@ Borough priority compares the mean score of each borough's five strongest suppor
 6. Validate the leading category with a small controlled campaign.
 7. Feed qualified leads, orders, revenue, fulfillment cost, and margin back as first-party observations.
 
-That measured feedback loop—not model voting—is what improves the decision over time. No real category recommendation exists in this repository yet because Google Ads credentials have not been configured and no full Bronx/Queens market collection has been run. The included examples and evaluation fixtures are synthetic.
+That measured feedback loop—not model voting—is what improves the decision over time. No real category recommendation exists in this repository yet because no complete production Bronx/Queens evidence packet or credential-backed full-run artifact is committed. The included examples and evaluation fixtures are synthetic. Repository inspection cannot establish whether credentials exist outside version control.
+
+## Validation and delivery status
+
+Development-session validation against implementation baseline `2176973a906455afc49931625f364906dba24796` reported Ruff on 15 files, Python compilation, all 20 evidence-policy cases, all 9 focused contract tests, and repository `make lint` passing. The evidence suite, focused tests, and lint reran successfully during the knowledge-document update. Focused coverage was reported as 56%; no threshold or lint budget was changed. A semantic review reported zero P0/P1 blockers. These are development-session records, not independently reproducible CI claims, because no immutable logs or GitHub check runs are committed.
+
+Historical delivery observation from September 14, 2026, before the knowledge-document update: branch `litellm_nyc_market_intelligence` had baseline `2176973a90` pushed, and draft PR [#1](https://github.com/meddymedia23-cyber/litellm/pull/1) was open, clean, and mergeable against `main`. Greptile, Veria, and Bugbot results were unavailable and were not treated as passes. The change was not merged or deployed. The PR URL is authoritative for subsequent documentation commits and delivery-state changes.
+
+Content from linked official documentation was rephrased for compliance with licensing restrictions.
