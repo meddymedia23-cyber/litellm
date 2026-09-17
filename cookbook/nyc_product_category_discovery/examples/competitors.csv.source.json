@@ -1,0 +1,10 @@
+{
+  "content_hash": "e67e5307dde21795fc48de45b58e058003ca8addc0653b546a1d5540d06ade2e",
+  "evidence_use": "synthetic",
+  "decision_eligible": false,
+  "license_name": "Synthetic demonstration data",
+  "attribution": "LiteLLM NYC product category discovery example",
+  "retention_allowed": true,
+  "provider_sharing_allowed": true,
+  "notes": "Synthetic competitor records for pipeline demonstrations only; never decision evidence."
+}

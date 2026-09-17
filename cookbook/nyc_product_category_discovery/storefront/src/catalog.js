@@ -1,0 +1,61 @@
+export const PACKAGES = Object.freeze([
+  Object.freeze({
+    id: "orbit-035",
+    size: "3.5g",
+    sequence: "01",
+    name: "Neon Orbit",
+    artwork: "Orbital pulse",
+    tagline: "Small format. Maximum signal.",
+    description: "A compact empty-pouch concept wrapped in acid-lime orbits and ultraviolet energy.",
+    palette: Object.freeze(["#071319", "#35f2c2", "#ff3d8d", "#d7ff3f", "#f8f4ea"]),
+    visual: Object.freeze({ width: 1.55, height: 2.05, depth: 0.2, corner: 0.16, pattern: 0 }),
+  }),
+  Object.freeze({
+    id: "signal-070",
+    size: "7g",
+    sequence: "02",
+    name: "Signal Riot",
+    artwork: "Frequency burst",
+    tagline: "Turn the frequency up.",
+    description: "An empty-pouch concept built from electric orange, cyan scan lines, and fractured rhythm.",
+    palette: Object.freeze(["#15091d", "#9b5cff", "#ff7a16", "#31f5dc", "#fff2ca"]),
+    visual: Object.freeze({ width: 1.78, height: 2.48, depth: 0.23, corner: 0.18, pattern: 1 }),
+  }),
+  Object.freeze({
+    id: "phase-140",
+    size: "14g",
+    sequence: "03",
+    name: "Prism Bloom",
+    artwork: "Chromatic bloom",
+    tagline: "Color breaks the grid.",
+    description: "A medium empty-pouch concept with layered spectral petals and a vivid central pulse.",
+    palette: Object.freeze(["#250718", "#ff408e", "#b8ff3d", "#59d8ff", "#fff0d8"]),
+    visual: Object.freeze({ width: 2.02, height: 2.88, depth: 0.27, corner: 0.2, pattern: 2 }),
+  }),
+  Object.freeze({
+    id: "vector-280",
+    size: "28g",
+    sequence: "04",
+    name: "Electric Vector",
+    artwork: "Directional rays",
+    tagline: "Built to move forward.",
+    description: "A large empty-pouch concept composed from cyan vectors, hot-red flares, and hard geometry.",
+    palette: Object.freeze(["#041b24", "#00dcff", "#ff315c", "#ffd23f", "#e8fbff"]),
+    visual: Object.freeze({ width: 2.28, height: 3.26, depth: 0.31, corner: 0.22, pattern: 3 }),
+  }),
+  Object.freeze({
+    id: "monolith-1lb",
+    size: "1lb",
+    sequence: "05",
+    name: "Chrome Monolith",
+    artwork: "Nested portal",
+    tagline: "The scale changes everything.",
+    description: "An oversized empty-pouch concept with liquid-chrome framing and a deep scarlet core.",
+    palette: Object.freeze(["#07080c", "#e4f5ff", "#ff164f", "#8d5cff", "#ffffff"]),
+    visual: Object.freeze({ width: 3.05, height: 4.12, depth: 0.4, corner: 0.28, pattern: 4 }),
+  }),
+]);
+
+export function getPackage(id) {
+  return PACKAGES.find((item) => item.id === id) ?? PACKAGES[0];
+}

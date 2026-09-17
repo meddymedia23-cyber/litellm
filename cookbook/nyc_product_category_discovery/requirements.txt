@@ -1,0 +1,4 @@
+google-ads>=31.2.0
+overturemaps>=1.0.2
+httpx>=0.23.0
+pydantic>=2.10.0

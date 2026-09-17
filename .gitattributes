@@ -1,2 +1,4 @@
 *.ipynb linguist-vendored
 ui/litellm-dashboard/src/lib/http/schema.d.ts linguist-generated
+
+cookbook/nyc_product_category_discovery/storefront/preview/index.html linguist-generated whitespace=-trailing-space,-space-before-tab

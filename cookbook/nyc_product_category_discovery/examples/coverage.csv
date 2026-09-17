@@ -1,0 +1,5 @@
+category,borough,query_completed,result_count,observed_at,query
+Celebration Kits,Bronx,true,9,2026-09-01T00:00:00Z,Celebration kits in Bronx
+Gift Baskets,Bronx,true,18,2026-09-01T00:00:00Z,Gift baskets in Bronx
+Celebration Kits,Queens,true,22,2026-09-01T00:00:00Z,Celebration kits in Queens
+Gift Baskets,Queens,true,30,2026-09-01T00:00:00Z,Gift baskets in Queens

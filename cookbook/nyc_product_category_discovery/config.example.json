@@ -1,0 +1,51 @@
+{
+  "models": {
+    "research": "perplexity/sonar-pro",
+    "classification": "deepseek/deepseek-v4-pro",
+    "analysis": "gemini/gemini-3.1-pro-preview",
+    "copy": "anthropic/claude-sonnet-5",
+    "synthesis": "openai/gpt-6-astra",
+    "consensus": [
+      "perplexity/sonar-pro",
+      "deepseek/deepseek-v4-pro",
+      "gemini/gemini-3.1-pro-preview",
+      "anthropic/claude-sonnet-5"
+    ]
+  },
+  "collection": {
+    "socrata_base_url": "https://data.cityofnewyork.us",
+    "dcwp_dataset_id": "w7w3-xahh",
+    "page_size": 1000,
+    "maximum_records": 100000,
+    "timeout_seconds": 30,
+    "boroughs": ["Bronx", "Queens"]
+  },
+  "overture": {
+    "executable": "overturemaps",
+    "bbox": [-74.05, 40.49, -73.68, 40.93],
+    "boundary_dataset_id": "gthc-hcne",
+    "minimum_confidence": 0.6,
+    "timeout_seconds": 900
+  },
+  "google_ads": {
+    "customer_id": null,
+    "language_id": "1000",
+    "maximum_keywords_per_category": 20
+  },
+  "analysis": {
+    "minimum_demand_confidence": 0.6,
+    "minimum_demand_value": 1,
+    "maximum_data_age_days": 400,
+    "demand_weight": 0.55,
+    "supply_gap_weight": 0.45,
+    "competitor_weakness_weight": 0,
+    "business_fit_weight": 0,
+    "minimum_supported_categories": 2
+  },
+  "runtime": {
+    "concurrency": 4,
+    "timeout_seconds": 120,
+    "retries": 2,
+    "temperature": null
+  }
+}
