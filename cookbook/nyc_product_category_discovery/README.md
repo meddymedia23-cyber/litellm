@@ -45,6 +45,26 @@ examples/
   coverage.csv
   coverage.csv.source.json
   taxonomy.json
+storefront/
+  index.html          crawlable entry and concept metadata
+  src/catalog.js      five evidence-safe size concepts
+  src/scene.js        procedural Three.js pouch renderer
+  src/main.js         accessible interaction and state binding
+  src/styles.css      responsive immersive interface
+```
+
+### Baggies Project storefront
+
+`storefront/` is a separate static Three.js concept site for empty pouches labeled 3.5g, 7g, 14g, 28g, and 1lb. It uses original procedural geometry and runtime-generated label art, supports a five-size comparison view, and falls back to readable HTML when WebGL is unavailable. The production build is a self-contained `dist/index.html` suitable for static hosting.
+
+The catalog deliberately contains no store or location details, prices, inventory, availability, delivery, ratings, or physical packaging specifications. Scene dimensions are illustrative. It is not connected to Google Merchant, Ads, checkout, or the deterministic recommendation workflow; those require separate reviewed evidence and integration work.
+
+Build it independently:
+
+```bash
+cd cookbook/nyc_product_category_discovery/storefront
+npm install
+npm run build
 ```
 
 ### Model routing

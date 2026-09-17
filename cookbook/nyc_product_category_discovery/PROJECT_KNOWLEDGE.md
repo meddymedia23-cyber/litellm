@@ -81,6 +81,16 @@ Raw rows are disclosed to model providers only when `provider_sharing_allowed` i
 - Copy requires exact operator-approved facts and remains `draft_requires_human_review`.
 - A tied consensus, unsupported borough, or missing approved copy fact returns `insufficient_data`.
 
+### Implemented 3D concept storefront
+
+`storefront/` is an isolated Vite and Three.js site for five empty-pouch labels: 3.5g, 7g, 14g, 28g, and 1lb. Pouch geometry and abstract label art are generated in code; no supplied image, logo, character, trade dress, texture, or 3D model was copied. The site supports orbit controls, a five-size comparison scene, accessible size buttons, reduced-motion behavior, and readable WebGL/JavaScript fallbacks. Its static production output is one self-contained HTML file.
+
+The storefront is intentionally evidence-safe: it contains no store/location details, price, inventory, availability, pickup, delivery, rating, review, scarcity, or verified physical-specification claim. Scene dimensions are visual parameters only. The five entries are concepts rather than Merchant products, and structured metadata uses `CreativeWork` entries without offers. The site is not connected to Google APIs, checkout, or the market-decision pipeline.
+
+### Storefront validation record
+
+During the implementation session, `npm install` reported zero known vulnerabilities and `npm run build` completed with Vite 8.3.0 and Three.js 0.186.0. Browser checks rendered WebGL without console errors on a 1280px desktop viewport and a 390×844 mobile viewport. They verified the first-viewport layout, all five accessible selectors, 1lb selection, comparison mode, no horizontal overflow, and current Three.js API use after removing two deprecation warnings. Screenshots were captured as session artifacts, not committed product evidence.
+
 ## Model routing
 
 Configured defaults at the last review were:
