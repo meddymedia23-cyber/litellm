@@ -1,0 +1,74 @@
+name: Deploy Baggies Storefront
+
+# Publishes the isolated pouch-concept storefront to GitHub Pages so it can be
+# previewed at a real URL before any production launch. Only this cookbook
+# subdirectory is built; nothing else in the repository is deployed.
+
+on:
+  push:
+    branches:
+      - litellm_nyc_market_intelligence
+    paths:
+      - "cookbook/nyc_product_category_discovery/storefront/**"
+      - ".github/workflows/deploy-baggies-storefront.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: baggies-storefront-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: cookbook/nyc_product_category_discovery/storefront
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: cookbook/nyc_product_category_discovery/storefront/package-lock.json
+
+      - name: Install pinned dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: test -s dist/index.html
+
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: cookbook/nyc_product_category_discovery/storefront/dist
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
