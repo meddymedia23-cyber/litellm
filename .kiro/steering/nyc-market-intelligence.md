@@ -36,7 +36,7 @@ The implementation lives at `cookbook/nyc_product_category_discovery/` inside th
 - Claude copy requires exact operator-approved facts, blocks unapproved promotional claims, and remains a human-review draft.
 - The 20-case offline evidence suite passed 20/20 locally at commit `2176973a90` on September 14, 2026; this is a local validation record, not GitHub CI evidence.
 - A small live Overture adapter probe found and normalized records during development, but no immutable probe artifact is committed. It was not a full borough market run and is ineligible for recommendations.
-- `storefront/` implements the Baggies Project as an isolated Vite/Three.js concept catalog for 3.5g, 7g, 14g, 28g, and 1lb empty-pouch labels. It uses original procedural visuals, has desktop/mobile and comparison-mode browser verification, and contains no store details, commerce claims, physical specifications, Google API connection, or decision evidence.
+- `storefront/` implements the Baggies Project as an isolated Vite/Three.js Chromatic Street-Tech Gallery for 3.5g, 7g, 14g, 28g, and 1lb empty-pouch labels. It uses five original procedural label systems, richer pouch geometry, a clickable three-bag hero, comparison mode, desktop/mobile/8K browser verification, and no external runtime assets. It contains no store details, commerce claims, physical specifications, Google API connection, or decision evidence.
 
 ## Proposed Merchant and RAG extensions
 

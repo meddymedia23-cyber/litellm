@@ -1,12 +1,16 @@
 # Baggies Project Storefront
 
-An isolated Three.js concept storefront for empty pouches in five requested size labels: 3.5g, 7g, 14g, 28g, and 1lb.
+A premium **Chromatic Street-Tech Gallery** built with Three.js for five empty-pouch concepts: 3.5g, 7g, 14g, 28g, and 1lb. The supplied pouch photos informed the saturated foil, stand-up silhouette, and bold front-art direction; every visible design remains original and generated in repository code.
 
 ## Scope
 
-- Original procedural pouch geometry and label artwork
-- Single-product and five-size comparison views
-- Keyboard-accessible size controls and readable WebGL fallback
+- Original procedural pouch geometry and five distinct chromatic label systems
+- Three-bag hero carousel with clickable neighboring designs
+- Five-size comparison view with true relative scene scaling
+- Spectral foil layers, zipper tracks, top crimps, side seals, notch accents, and gussets
+- 1536×2048 procedural label textures with mipmaps and up to 16× anisotropic filtering
+- Dynamic render budgeting that keeps the 3D scene at native CSS-pixel resolution on an 8K display at device-pixel ratio 1, while capping total drawing work at 7680×4320 pixels
+- Keyboard-accessible visual catalog cards and readable WebGL fallback
 - No store, location, price, inventory, availability, delivery, rating, or product-content claims
 - Visual scene dimensions are illustrative and are not packaging specifications
 

@@ -12,17 +12,17 @@ app.innerHTML = `
         <span>Baggies Project</span>
       </a>
       <div class="topbar-meta" aria-label="Collection summary">
-        <span>Concept catalog</span>
+        <span>Chromatic series</span>
         <span class="meta-divider" aria-hidden="true"></span>
-        <span>Five formats</span>
+        <span>Five original formats</span>
       </div>
     </header>
 
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow"><span>01—05</span> Empty pouch studies</p>
-        <h1 id="hero-title">One system.<br><em>Five scales.</em></h1>
-        <p class="hero-intro">An immersive study in proportion, color, and motion—generated entirely in the browser.</p>
+        <p class="eyebrow"><span>Edition 01—05</span> Chromatic pouch studies</p>
+        <h1 id="hero-title">Color lives<br><em>in motion.</em></h1>
+        <p class="hero-intro">Five empty-pouch concepts transformed into a luminous, orbitable street-tech collection.</p>
         <div class="hero-actions">
           <button class="action action-primary" type="button" data-action="explore">Explore the collection</button>
           <button class="action action-secondary" type="button" data-action="compare">Compare all sizes</button>
@@ -37,16 +37,18 @@ app.innerHTML = `
           <div class="fallback-pouch" aria-hidden="true"><span>3.5g</span></div>
           <p>3D preview unavailable. The full catalog remains accessible below.</p>
         </div>
+        <div class="scene-badge" aria-hidden="true"><span>Original art</span><b data-active-sequence>01</b></div>
         <div class="scene-index" aria-hidden="true">
-          <span data-active-sequence>01</span><i></i><span>05</span>
+          <span>Chromatic</span><i></i><span>Series 01</span>
         </div>
-        <p class="drag-cue" aria-hidden="true"><span></span> Drag to orbit</p>
+        <p class="drag-cue" aria-hidden="true"><span></span> Drag to orbit · tap side bags</p>
       </div>
 
       <aside class="detail-panel" aria-live="polite">
         <div class="detail-sequence" data-detail-sequence>Study 01</div>
         <div class="detail-size" data-detail-size>3.5g</div>
-        <h2 data-detail-name>Orbit Mini</h2>
+        <h2 data-detail-name>Neon Orbit</h2>
+        <p class="detail-tagline" data-detail-tagline></p>
         <p data-detail-description></p>
         <dl>
           <div><dt>Format</dt><dd data-detail-format></dd></div>
@@ -61,9 +63,9 @@ app.innerHTML = `
       <div class="catalog-heading">
         <div>
           <p class="eyebrow">Select a format</p>
-          <h2 id="catalog-title">The size spectrum</h2>
+          <h2 id="catalog-title">Choose your signal</h2>
         </div>
-        <p>Original procedural artwork. No imported models or third-party packaging designs.</p>
+        <p>Five exclusive color systems drawn in code. Select a card to bring its pouch into the center stage.</p>
       </div>
       <div class="size-grid" data-size-grid></div>
     </section>
@@ -79,6 +81,7 @@ const detail = {
   sequence: document.querySelector("[data-detail-sequence]"),
   size: document.querySelector("[data-detail-size]"),
   name: document.querySelector("[data-detail-name]"),
+  tagline: document.querySelector("[data-detail-tagline]"),
   description: document.querySelector("[data-detail-description]"),
   format: document.querySelector("[data-detail-format]"),
   artwork: document.querySelector("[data-detail-artwork]"),
@@ -98,25 +101,43 @@ function renderCards() {
       button.className = "size-card";
       button.dataset.packageId = item.id;
       button.setAttribute("aria-pressed", String(item.id === selectedId && !compareMode));
+      button.style.setProperty("--card-bg", item.palette[0]);
+      button.style.setProperty("--card-a", item.palette[1]);
+      button.style.setProperty("--card-b", item.palette[2]);
+      button.style.setProperty("--card-c", item.palette[3]);
 
       const sequence = document.createElement("span");
       sequence.className = "card-sequence";
-      sequence.textContent = item.sequence;
+      sequence.textContent = `Edition ${item.sequence}`;
 
-      const swatch = document.createElement("span");
-      swatch.className = "card-swatch";
-      swatch.style.setProperty("--swatch-a", item.palette[1]);
-      swatch.style.setProperty("--swatch-b", item.palette[2]);
-      swatch.setAttribute("aria-hidden", "true");
+      const visual = document.createElement("span");
+      visual.className = `card-visual card-pattern-${item.visual.pattern}`;
+      visual.setAttribute("aria-hidden", "true");
 
+      const pouch = document.createElement("span");
+      pouch.className = "card-pouch";
+      const pouchBrand = document.createElement("span");
+      pouchBrand.className = "card-pouch-brand";
+      pouchBrand.textContent = "BP";
+      const pouchSize = document.createElement("span");
+      pouchSize.className = "card-pouch-size";
+      pouchSize.textContent = item.size;
+      pouch.append(pouchBrand, pouchSize);
+      visual.append(pouch);
+
+      const copy = document.createElement("span");
+      copy.className = "card-copy";
       const size = document.createElement("strong");
       size.textContent = item.size;
-
       const name = document.createElement("span");
       name.className = "card-name";
       name.textContent = item.name;
+      const artwork = document.createElement("span");
+      artwork.className = "card-artwork";
+      artwork.textContent = item.artwork;
+      copy.append(size, name, artwork);
 
-      button.append(sequence, swatch, size, name);
+      button.append(sequence, visual, copy);
       button.addEventListener("click", () => selectPackage(item.id));
       return button;
     }),
@@ -127,6 +148,7 @@ function updateDetail(item) {
   detail.sequence.textContent = `Study ${item.sequence}`;
   detail.size.textContent = item.size;
   detail.name.textContent = item.name;
+  detail.tagline.textContent = item.tagline;
   detail.description.textContent = item.description;
   detail.format.textContent = `${item.size} empty pouch`;
   detail.artwork.textContent = item.artwork;

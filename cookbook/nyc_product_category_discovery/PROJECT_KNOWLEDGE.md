@@ -83,13 +83,17 @@ Raw rows are disclosed to model providers only when `provider_sharing_allowed` i
 
 ### Implemented 3D concept storefront
 
-`storefront/` is an isolated Vite and Three.js site for five empty-pouch labels: 3.5g, 7g, 14g, 28g, and 1lb. Pouch geometry and abstract label art are generated in code; no supplied image, logo, character, trade dress, texture, or 3D model was copied. The site supports orbit controls, a five-size comparison scene, accessible size buttons, reduced-motion behavior, and readable WebGL/JavaScript fallbacks. Its static production output is one self-contained HTML file.
+`storefront/` is an isolated Vite and Three.js **Chromatic Street-Tech Gallery** for five empty-pouch labels: 3.5g, 7g, 14g, 28g, and 1lb. The supplied pouch photos informed its saturated foil, stand-up silhouette, and bold front-art direction, but no supplied image, logo, character, trade dress, texture, or 3D model was copied. Five original procedural label systems use spectral bands, deterministic spray fields, abstract motifs, and edition marks. The 3D scene adds zipper tracks, top crimps, side seals, notch accents, gussets, portal lighting, foil shards, a three-pouch clickable hero, and a proportion-preserving comparison view.
+
+The site retains accessible native size buttons, keyboard focus, reduced-motion behavior, responsive desktop/mobile/high-density layouts, and readable WebGL/JavaScript fallbacks. Labels render from 1536×2048 canvases with mipmaps and hardware-capped anisotropy. Scene rendering uses an 8K pixel budget to retain native scene resolution at device-pixel ratio 1 without accidental supersampling beyond 7680×4320 pixels. Its static production output is one self-contained HTML file with no external runtime assets.
 
 The storefront is intentionally evidence-safe: it contains no store/location details, price, inventory, availability, pickup, delivery, rating, review, scarcity, or verified physical-specification claim. Scene dimensions are visual parameters only. The five entries are concepts rather than Merchant products, and structured metadata uses `CreativeWork` entries without offers. The site is not connected to Google APIs, checkout, or the market-decision pipeline.
 
 ### Storefront validation record
 
-During the implementation session, `npm install` reported zero known vulnerabilities and `npm run build` completed with Vite 8.3.0 and Three.js 0.186.0. Browser checks rendered WebGL without console errors on a 1280px desktop viewport and a 390×844 mobile viewport. They verified the first-viewport layout, all five accessible selectors, 1lb selection, comparison mode, no horizontal overflow, and current Three.js API use after removing two deprecation warnings. Screenshots were captured as session artifacts, not committed product evidence.
+During the redesign session, clean `npm run build` and `npm audit` runs passed with Vite 8.3.0, Three.js 0.186.0, and zero reported vulnerabilities. Browser checks rendered WebGL without console errors at 1440×900 desktop and 390×844 mobile viewports. They verified first-viewport composition, all five selectors, retained keyboard focus, 1lb selection, clickable side-pouch promotion to 7g, five-size comparison, no external runtime scripts/styles, and no horizontal overflow.
+
+A 7680×4320 browser viewport produced a native-resolution 2752×2398 scene drawing buffer at device-pixel ratio 1—6,599,296 pixels, below the 33,177,600-pixel cap—with loading cleared and no overflow or console error. Identity-deduplicated Three.js cleanup prevents shared geometry, material, or texture references from being disposed twice. Final semantic review reported `APPROVED` with zero P0/P1/P2 findings. Screenshots remain session artifacts rather than product evidence.
 
 ## Model routing
 
